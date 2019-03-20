@@ -11,6 +11,23 @@ Typ'em gauges your typing speed with over 5000 lyrics excerpts!
 
 An excerpt is taken from the chosen song's lyrics and the user's gross WPM is calculated with [SpeedTyping](https://www.speedtypingonline.com/typing-equations) Gross WPM equation. Users can get new lyrics by simply pulling down on the screen.
 
+## Design caveats:
+Due to the strict 5KB Dart code size, certain caveats were taken to ensure code size remains within limit but readability is not sacrificed.
+
+Primarily:
+* The use of dynamic typing and removing of return type instead of strict typing.
+* Lack of modularity between nested widget i.e. in `Row()`
+* Short 'ambiguous' variable names and method names.
+* Single character variables for lambda variable naming.
+
+Given a higher size limit, these compromises should be fixed.
+
+## Potential fixes for future versions:
+* Standardize lyrics output by removing all non alpha characters i.e. `!?()`
+* Better text sanitization.
+* Switch gross WPM for true WPM by taking into account error rates.
+* Link to Spotify API for music discovery.
+
 ## Getting Started
 1) Clone the repository.
 2) Navigate to root of the repository.

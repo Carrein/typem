@@ -26,7 +26,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  static String msg = "Timer starts on your first character!";
+  static var msg = "Timer starts on your first character!";
 
   var te = TextEditingController();
   var wpm;
@@ -50,7 +50,7 @@ class _Home extends State<Home> {
     });
   }
 
-  Future<void> refresh() async {
+  refresh() async {
     await getArtist().then((e) async {
       await getLyrics(e[0], e[1]).then((u) {
         setState(() {
@@ -65,13 +65,23 @@ class _Home extends State<Home> {
     });
   }
 
+  head() {
+    return Text(
+      "⌨️ typ'em",
+      style: TextStyle(
+        fontSize: 60,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   lyrics() {
     return Container(
       child: Text(
         text,
         style: TextStyle(
           height: 1.2,
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -112,11 +122,10 @@ class _Home extends State<Home> {
                 wpm = getWPM(sw.elapsedMilliseconds, text.length).toString();
                 setState(() {
                   text = "That was:\n" +
-                      artist +
-                      "\nsinging\n" +
                       song +
-                      "\n\nPull down to get lyrics.";
-
+                      " by " +
+                      artist +
+                      "\n\nPull down to get new lyrics!";
                   hint = "WPM: " + wpm;
                   enable = false;
                   te.clear();
@@ -143,9 +152,10 @@ class _Home extends State<Home> {
           key: headerKey,
         ),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 60.0),
+          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
           child: Column(
             children: <Widget>[
+              head(),
               lyrics(),
               input(),
             ],
@@ -156,7 +166,7 @@ class _Home extends State<Home> {
     ));
   }
 
-  Future<String> getLyrics(artist, song) async {
+  getLyrics(artist, song) async {
     var format;
     await http
         .get("https://api.lyrics.ovh/v1/" + artist + "/" + song)
@@ -184,7 +194,7 @@ class _Home extends State<Home> {
     return format;
   }
 
-  Future<dynamic> getArtist() async {
+  getArtist() async {
     var data = List();
     var x = next(0, out.length);
     data.add(out[x][0]);
