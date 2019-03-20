@@ -31,7 +31,7 @@ Download the APK from Release Page and install on Android device with Android Pa
 After installation, launch the application from your device's main launcher.
 
 ## Help
-Got a query? Email @ addisonho@outlook.com
+Got a query? Contact addisonho@outlook.com
 
 ## Authors
 * Addison Ho - [@carrein](https://addisonho.com)
@@ -45,4 +45,4 @@ Got a query? Email @ addisonho@outlook.com
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details
+This project is licensed under the MIT License - see the LICENSE.md file for details
