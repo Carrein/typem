@@ -12,7 +12,9 @@ class App extends StatelessWidget {
   @override
   build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Scaffold(
+        body: new Center(child: Home()),
+      ),
       theme: ThemeData(
         fontFamily: 'Overpass',
       ),
@@ -40,6 +42,7 @@ class _Home extends State<Home> {
   var out = List();
   var headerKey = GlobalKey<RefreshHeaderState>();
   var rand = Random();
+  var r = RegExp(r"[^\s\w]");
 
   @override
   initState() {
@@ -118,17 +121,13 @@ class _Home extends State<Home> {
                   hint = "Oops!";
                 });
               } else if (text == e) {
+                enable = false;
+                te.clear();
                 sw.stop();
                 wpm = getWPM(sw.elapsedMilliseconds, text.length).toString();
                 setState(() {
-                  text = "That was:\n" +
-                      song +
-                      " by " +
-                      artist +
-                      "\n\nPull down to get new lyrics!";
+                  text = "That was:\n 💽 $song \n🎙 $artist \n\n👇 Pull down to get new lyrics!";
                   hint = "WPM: " + wpm;
-                  enable = false;
-                  te.clear();
                 });
               } else {
                 setState(() {
@@ -145,25 +144,22 @@ class _Home extends State<Home> {
 
   @override
   build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: EasyRefresh(
-        refreshHeader: ClassicsHeader(
-          key: headerKey,
-        ),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
-          child: Column(
-            children: <Widget>[
-              head(),
-              lyrics(),
-              input(),
-            ],
-          ),
-        ),
-        onRefresh: () async => await refresh(),
+    return EasyRefresh(
+      refreshHeader: ClassicsHeader(
+        key: headerKey,
       ),
-    ));
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        child: Column(
+          children: <Widget>[
+            head(),
+            lyrics(),
+            input(),
+          ],
+        ),
+      ),
+      onRefresh: () async => await refresh(),
+    );
   }
 
   getLyrics(artist, song) async {
@@ -178,7 +174,7 @@ class _Home extends State<Home> {
           });
         });
       } else {
-        var buffer = StringBuffer();
+        var buf = StringBuffer();
         var pre = List();
         var list = json.decode(e.body)["lyrics"].split("\n");
         for (var s in list) {
@@ -186,9 +182,9 @@ class _Home extends State<Home> {
         }
         int index = next(1, pre.length - 4);
         for (int i = index; i < index + 4; i++) {
-          buffer.write(pre[i] + "\n");
+          buf.write(pre[i].toString().toLowerCase().replaceAll(r, "") + "\n");
         }
-        format = buffer.toString().trim();
+        format = buf.toString().trim();
       }
     });
     return format;
