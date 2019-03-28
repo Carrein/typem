@@ -28,8 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  static var msg = "Timer starts on your first character!";
-
+  static var msg = "Timer starts on the first character!";
   var te = TextEditingController();
   var wpm;
   var artist;
@@ -72,7 +71,7 @@ class _Home extends State<Home> {
     return Text(
       "⌨️ typ'em",
       style: TextStyle(
-        fontSize: 60,
+        fontSize: 66,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -80,6 +79,7 @@ class _Home extends State<Home> {
 
   lyrics() {
     return Container(
+      padding:EdgeInsets.all(10),
       child: Text(
         text,
         style: TextStyle(
@@ -127,7 +127,7 @@ class _Home extends State<Home> {
                 wpm = getWPM(sw.elapsedMilliseconds, text.length).toString();
                 setState(() {
                   text = "That was:\n 💽 $song \n🎙 $artist \n\n👇 Pull down to get new lyrics!";
-                  hint = "WPM: " + wpm;
+                  hint = "WPM: $wpm";
                 });
               } else {
                 setState(() {
@@ -149,7 +149,7 @@ class _Home extends State<Home> {
         key: headerKey,
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 60),
         child: Column(
           children: <Widget>[
             head(),
@@ -162,10 +162,10 @@ class _Home extends State<Home> {
     );
   }
 
-  getLyrics(artist, song) async {
+  getLyrics(art, song) async {
     var format;
     await http
-        .get("https://api.lyrics.ovh/v1/" + artist + "/" + song)
+        .get("https://api.lyrics.ovh/v1/$art/$song")
         .then((e) async {
       if (e.body.length < 99) {
         await getArtist().then((e) async {

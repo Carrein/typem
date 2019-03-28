@@ -56,6 +56,8 @@ Got a query? Contact addisonho@outlook.com
 ## Version History
 * 1.0
     * Initial Release
+* 1.0.1
+    * Various bug fixes and icon change
 
 ## Acknowledgments
 * [LyricsOVH API](https://lyricsovh.docs.apiary.io/)
